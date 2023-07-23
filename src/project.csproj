@@ -1,0 +1,60 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+
+    <Authors>Blockchain Web Services</Authors>
+    <Description>BWS Solutions API dotnet SDK.</Description>
+
+    <AssemblyName>BWSSDK.API</AssemblyName>
+    <PackageId>BWSSDK.API</PackageId> 
+    <PackageVersion>1.0.0</PackageVersion>
+    <PackageTags>dotnet;cf4dotnet;library</PackageTags>
+  
+    <TargetFramework>net6.0</TargetFramework>
+    <RepositoryUrl>https://github.com/Blockchain-Web-Services/bws-api-sdk-dotnet.git</RepositoryUrl>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Local'">
+    <DefineConstants>LOCAL;</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Debug'">
+    <DefineConstants>TRACE;DEBUG;</DefineConstants>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)'=='Release'">
+    <DefineConstants>RELEASE;</DefineConstants>
+  </PropertyGroup>
+
+  <ItemGroup>  
+
+    <PackageReference Include="Amazon.Lambda.Serialization.SystemTextJson" Version="2.1.0" />  
+    <PackageReference Include="Amazon.Lambda.Core" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.APIGatewayEvents" Version="2.4.0" />
+    <PackageReference Include="Amazon.Lambda.CloudWatchEvents" Version="2.1.0" /> 
+    <PackageReference Include="Amazon.Lambda.Serialization.Json" Version="1.8.0" />
+    <PackageReference Include="Amazon.Lambda.SQSEvents" Version="1.2.0" />
+    <PackageReference Include="Amazon.Lambda.S3Events" Version="1.2.0" />  
+  
+    <PackageReference Include="AWSSDK.Core" Version="3.7.6" />  
+  
+    <PackageReference Include="AWSSDK.EventBridge" Version="3.7.4.62" />
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.1.70" />
+    <PackageReference Include="AWSSDK.DynamoDBv2" Version="3.7.2.12" />
+    <PackageReference Include="AWSSDK.Lambda" Version="3.7.8.15" />
+    <PackageReference Include="AWSSDK.SimpleEmail" Version="3.7.0.117" />
+    <PackageReference Include="AWSSDK.StepFunctions" Version="3.7.0.117" />
+    <PackageReference Include="AWSSDK.S3" Version="3.7.7.15" />
+    <PackageReference Include="AWSSDK.SQS" Version="3.7.2.14" />
+    <PackageReference Include="AWSSDK.SimpleNotificationService" Version="3.7.3.17" />
+    <PackageReference Include="AWSSDK.APIGateway" Version="3.7.2.64" />
+    <PackageReference Include="AWSSDK.CognitoIdentityProvider" Version="3.7.1.89" />
+    <PackageReference Include="AWSSDK.CloudWatch" Version="3.7.3.16" />
+ 
+    <PackageReference Include="Newtonsoft.Json" Version="12.0.3" />
+    <PackageReference Include="Newtonsoft.Json.Schema" Version="3.0.13" />
+  
+  </ItemGroup>
+
+
+</Project>

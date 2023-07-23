@@ -1,0 +1,85 @@
+name: Create Release
+on:
+  push:
+    branches:
+      - master
+
+jobs:
+
+  ############################################
+  # Define Variables required on next jobs
+  variables:
+    name: Define Variables for Jobs
+    runs-on: ubuntu-latest
+    outputs:
+      NEW_VERSION: ${{ steps.definevariables.outputs.NEW_VERSION }}
+      BRANCH: ${{ steps.definevariables.outputs.BRANCH }} 
+      SHA: ${{ steps.definevariables.outputs.SHA }}  
+      DATE:  ${{ steps.definevariables.outputs.DATE }}
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # Jobs Variables
+      - name: Define Variables
+        id: definevariables
+        shell: bash
+        run: |
+          BRANCH=$(jq --raw-output .ref "$GITHUB_EVENT_PATH")
+          BRANCH=$(basename $BRANCH)                
+          echo "::set-output name=BRANCH::$BRANCH"
+          SHA=$GITHUB_SHA
+          echo "::set-output name=SHA::$SHA"
+          git fetch --all --tags    
+          MAJOR_PROD=$(git tag --sort=v:refname | tail -1 | sed 's/^v\.*//' | sed 's/[.].*//')
+          NEW_MINOR_PROD=$(expr $(git tag --sort=v:refname | tail -1 | sed 's/.*[.]//') + 1)
+          NEW_VERSION=$(case $BRANCH in "master") echo $MAJOR_PROD.$NEW_MINOR_PROD;; esac) 
+          echo "::set-output name=NEW_VERSION::$NEW_VERSION"  
+          DATE=$(TZ=Europe/Amsterdam date '+%Y-%m-%d/%H:%M')
+          echo "::set-output name=DATE::$DATE" 
+  
+  ############################################
+  # Create GitHub Release
+  release:
+    permissions: write-all
+    name: Create Release
+    # if: github.ref == 'refs/heads/prod'
+    needs: [variables]   
+    runs-on: ubuntu-latest
+    steps:
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ needs.variables.outputs.NEW_VERSION }}
+          release_name: Release ${{ needs.variables.outputs.NEW_VERSION }}.
+          draft: false
+          prerelease: false
+
+  ############################################
+  # Publish Package
+  publish:
+    runs-on: ubuntu-latest
+    name: Update NuGet package
+    steps:
+      - name: "Checkout source code"
+        uses: "actions/checkout@v3"
+        
+      - name: Setup .NET Core @ Latest
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: 6.x
+          source-url: https://nuget.pkg.github.com/Blockchain-Web-Services/index.json
+        env:
+          NUGET_AUTH_TOKEN: ${{ secrets.NUGET_TOKEN }}    
+          
+      - name: Build solution and generate NuGet package
+        run: |  
+          cd src
+          dotnet pack -c Release -o out  
+
+      - name: Push generated package to GitHub registry
+        run: dotnet nuget push ./src/out/*.nupkg --source "https://nuget.pkg.github.com/Blockchain-Web-Services/index.json" -k "${{ secrets.NUGET_TOKEN }}"
+
