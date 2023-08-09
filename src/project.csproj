@@ -7,7 +7,7 @@
 
     <AssemblyName>BWSSDK.API</AssemblyName>
     <PackageId>BWSSDK.API</PackageId> 
-    <PackageVersion>2.0.0</PackageVersion>
+    <PackageVersion>2.0.1</PackageVersion>
     <PackageTags>dotnet;cf4dotnet;library</PackageTags>
   
     <TargetFramework>net6.0</TargetFramework>

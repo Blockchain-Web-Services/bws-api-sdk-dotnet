@@ -9,10 +9,10 @@ namespace BWSSDK.API.Call.Model
     [JsonProperty(PropertyName = "solution", Required = Required.Always)]
     public string Solution { get; set; }
 
-    [JsonProperty(PropertyName = "version", Required = Required.Always)]
+    [JsonProperty(PropertyName = "version", Required = Required.AllowNull)]
     public string Version { get; set; }
 
-    [JsonProperty(PropertyName = "network", Required = Required.Always)]
+    [JsonProperty(PropertyName = "network", Required = Required.AllowNull)]
     public string Network { get; set; }
 
     [JsonProperty(PropertyName = "operation", Required = Required.Always)]
