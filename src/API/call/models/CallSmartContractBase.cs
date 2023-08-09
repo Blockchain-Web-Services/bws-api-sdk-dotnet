@@ -4,13 +4,13 @@ using Newtonsoft.Json;
 
 namespace BWSSDK.API.Call.Model
 {
-  public class CallSmartContractBase
+  public class CallSolutionBase
   {
-    [JsonProperty(PropertyName = "contract", Required = Required.Always)]
-    public string Contract { get; set; }
+    [JsonProperty(PropertyName = "solution", Required = Required.Always)]
+    public string Solution { get; set; }
 
     [JsonProperty(PropertyName = "version", Required = Required.Always)]
-    public string version { get; set; }
+    public string Version { get; set; }
 
     [JsonProperty(PropertyName = "network", Required = Required.Always)]
     public string Network { get; set; }

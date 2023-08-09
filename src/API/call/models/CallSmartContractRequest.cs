@@ -4,7 +4,7 @@ using Newtonsoft.Json;
 
 namespace BWSSDK.API.Call.Model
 {
-  public class CallSmartContractRequest<T> : CallSmartContractBase
+  public class CallSmartContractRequest<T> : CallSolutionBase
   {
 
     [JsonProperty(PropertyName = "parameters", Required = Required.Always)]

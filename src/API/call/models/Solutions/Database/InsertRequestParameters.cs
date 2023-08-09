@@ -3,7 +3,7 @@ using System.Net;
 
 using Newtonsoft.Json;
 
-namespace BWSSDK.API.Call.Model
+namespace BWSSDK.API.Call.Solutions.Database.Model
 {
   public class InsertRequestParameters
   {
